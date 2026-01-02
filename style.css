@@ -1,0 +1,164 @@
+$color1: #FFE66D;
+$color2: #4ECDC4;
+$color3: #FF6B6B;
+$size: 2.5rem;
+body {  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  user-select: none;
+  background: #333;
+}
+h1 {
+  color: #fefefe;
+  font-size: 1.5rem;
+  margin-bottom: 0;
+}
+h2 {
+  color: #fefefe;
+  font-size: 0.8rem;
+  font-weight: normal;
+  font-style: italic;
+}
+#timer,
+#errors {
+  display: inline-block;
+  color: #fefefe;
+  padding: 0.3em 0.5em;
+  margin-bottom: 1rem;
+}
+#timer {
+  border: 1px solid;
+  &.finished {
+    color: $color3;
+  }
+}
+#errors {
+  font-size: 0.8rem;
+  opacity: 0.5;
+  &:before {
+    content: attr(data-errors);
+  }
+}
+#game {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+#menu {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  gap: 5px;
+  justify-content: center;
+  margin-top: 1.5rem;
+  margin-bottom: 5px;
+}
+#menu button {
+  padding: 0.5em 1em;
+  font-size: 1rem;
+}
+.syllabary {
+  table-layout: fixed;
+  border: 1em solid #fefefe;
+  direction: rtl;
+  background: #fefefe;
+  width: auto;
+  border-collapse: separate;
+  border-spacing: 0.2rem;
+  td {
+    width: $size;
+    height: $size;
+    > div {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+    .hiragana,
+    .katakana {
+      font-size: $size * 0.7;
+      line-height: $size;
+      width: 100%;
+      height: 100%;
+      transition: background 0.3s;
+    }
+  }
+}
+.slot {
+  position: relative; 
+  display: inline-block;
+  &.over {
+    box-shadow: inset 0 0 0 2px #333;
+  }
+  &.error {
+    transition: background 0s;
+    background: $color3;
+  }
+  .helper {
+    position: absolute;
+    inset: 0;
+    opacity: 0.35;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .placed {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+.kanas {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 30%;
+  padding: 1em;
+  span {
+    display: inline-block;
+    font-size: $size * 0.7;
+    line-height: $size;
+    height: $size;
+    width: $size;
+    text-align: center;
+    margin: 0.14rem;
+    &.dragging {
+      opacity: 0.5;
+    }
+  }
+}
+.hiragana,
+[data-type="hiragana"] {
+  background: $color1; 
+}
+.katakana,
+[data-type="katakana"] {
+  background: $color2;
+}
+
+@media all and (max-width: 800px) {
+  .syllabary {
+    td {
+      .hiragana,
+      .katakana {
+        width: 100%;
+      }   
+    }
+  }
+}
+@media all and (max-width: 570px) {
+  .syllabary {
+    width: 100%;
+    border: none;
+  }
+}
