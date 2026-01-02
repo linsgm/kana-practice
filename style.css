@@ -2,7 +2,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   min-height: 100vh;
   user-select: none;
   background: #333;
@@ -13,7 +13,7 @@ body {
   gap: 5px;
   justify-content: center;
   margin-top: 1.5rem;
-  margin-bottom: 5px;
+  margin-bottom: 0;
 }
 #menu button {
   padding: 0.5em 1em;
@@ -26,7 +26,7 @@ h1 {
 }
 h2 {
   color: #fefefe;
-  font-size: 0.8rem;
+  font-size: 1rem;
   font-weight: normal;
   font-style: italic;
 }
@@ -44,16 +44,20 @@ h2 {
   color: #FF6B6B;
 }
 #errors {
-  font-size: 0.8rem;
+  font-size: 1rem;
   opacity: 0.5;
 }
 #errors:before {
   content: attr(data-errors);
 }
+#resetBtn {
+  padding: 0.3em 0.5em;
+  font-size: 1rem;
+}
 #game {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   min-height: 100vh;
   width: 100%;
@@ -65,7 +69,8 @@ h2 {
   border: 1em solid #fefefe;
   direction: rtl;
   background: #fefefe;
-  width: auto;
+  width: 100%;
+  max-width: max-content;
   border-collapse: separate;
   border-spacing: 0.2rem;
 }
@@ -142,15 +147,13 @@ h2 {
   background: #4ECDC4;
 }
 
-@media all and (max-width: 800px) {
-  .syllabary td .hiragana,
-  .syllabary td .katakana {
-    width: 100%;
-  }
-}
-@media all and (max-width: 570px) {
+@media (max-width: 600px) {
   .syllabary {
+    border: 0.5rem solid #fefefe;
+    border-spacing: 0.15rem;
+  }
+  .kanas {
     width: 100%;
-    border: none;
+    max-width: 100%;
   }
 }
