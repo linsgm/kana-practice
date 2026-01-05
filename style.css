@@ -1,82 +1,111 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+}
 body {  
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  min-height: 100vh;
+  height: 100vh;
   user-select: none;
   background: #333;
+  font-family: sans-serif;
 }
 #menu {
   display: grid;
   grid-template-columns: repeat(2, auto);
-  gap: 5px;
+  gap: 1vmin;
   justify-content: center;
-  margin-top: 1.5rem;
-  margin-bottom: 0;
+  margin-top: 3vmin;
+  margin-bottom: 1vmin;
 }
 #menu button {
-  padding: 0.5em 1em;
-  font-size: 1rem;
+  padding: 0.8em 1.2em;
+  font-size: 2.5vmin;
+  cursor: pointer;
+  border: none;
+  background: #555;
+  color: white;
+  transition: all 0.2s;
+}
+#menu button:hover {
+  background: #777;
 }
 h1 {
   color: #fefefe;
-  font-size: 1.5rem;
+  font-size: 4vmin;
+  margin-top: 2vmin;
   margin-bottom: 0;
 }
 h2 {
   color: #fefefe;
-  font-size: 1rem;
+  font-size: 2vmin;
   font-weight: normal;
   font-style: italic;
 }
 #timer,
-#errors {
+#errors,
+#resetBtn {
   display: inline-block;
   color: #fefefe;
-  padding: 0.3em 0.5em;
-  margin-bottom: 1rem;
+  padding: 0.5vmin 1.5vmin;
+  font-size: 2.5vmin; 
+  margin: 0vmin;
+  vertical-align: middle;
+  margin-bottom: 2vmin;
 }
 #timer {
-  border: 1px solid;  
+  border: 0.2vmin solid;
 }
 #timer.finished {
   color: #FF6B6B;
 }
 #errors {
-  font-size: 1rem;
-  opacity: 0.5;
+  font-weight: normal;
+  opacity: 0.7;
 }
 #errors:before {
   content: attr(data-errors);
 }
 #resetBtn {
-  padding: 0.3em 0.5em;
-  font-size: 1rem;
+  cursor: pointer;
+  background: #555;
+  border: none;
+  border-radius: 0.5vmin;
+  transition: background 0.2s;
+}
+#resetBtn:hover {
+  background: #777;
 }
 #game {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: space-evenly;
   align-items: center;
-  min-height: 100vh;
-  width: 100%;
-  padding: 20px;
+  flex: 1;
+  width: 100vw;
+  height: 100vh;
+  padding: 2vmin;
   box-sizing: border-box;
+  overflow: hidden;
 }
 .syllabary {
   table-layout: fixed;
-  border: 1em solid #fefefe;
+  border: 1vmin solid #777;
   direction: rtl;
-  background: #fefefe;
-  width: 100%;
-  max-width: max-content;
+  background: #777;
+  width: max-content;
+  max-width: 95vw;
+  max-height: 60vh;
   border-collapse: separate;
   border-spacing: 0.2rem;
 }
 .syllabary td {
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 7vmin;
+  height: 7vmin;
 }
 .syllabary td > div {
   position: relative;
@@ -85,8 +114,8 @@ h2 {
 }
 .syllabary td .hiragana,
 .syllabary td .katakana {
-  font-size: 1.75rem;
-  line-height: 2.5rem;
+  font-size: 4vmin;
+  line-height: 7vmin;
   width: 100%;
   height: 100%;
   transition: background 0.3s;
@@ -105,7 +134,7 @@ h2 {
 .slot .helper {
   position: absolute;
   inset: 0;
-  opacity: 0.35;
+  opacity: 0.5;
   pointer-events: none;
   display: flex;
   align-items: center;
@@ -120,20 +149,23 @@ h2 {
   justify-content: center;
 }
 .kanas {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(11, 1fr);
   flex-wrap: wrap;
   justify-content: center;
-  width: 30%;
-  padding: 1em;
+  padding: 2vmin;
 }
 .kanas span {
-  display: inline-block;
-  font-size: 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3.5vmin;
   line-height: 2.5rem;
-  height: 2.5rem;
-  width: 2.5rem;
+  width: 6.5vmin;
+  height: 6.5vmin;
   text-align: center;
-  margin: 0.14rem;
+  margin: 0.3vmin;
+  cursor: pointer;
 }
 .kanas span.dragging {
   opacity: 0.5;
@@ -145,15 +177,4 @@ h2 {
 .katakana,
 [data-type="katakana"] {
   background: #4ECDC4;
-}
-
-@media (max-width: 600px) {
-  .syllabary {
-    border: 0.5rem solid #fefefe;
-    border-spacing: 0.15rem;
-  }
-  .kanas {
-    width: 100%;
-    max-width: 100%;
-  }
 }
