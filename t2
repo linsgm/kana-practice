@@ -1,0 +1,200 @@
+/* 1. RESET E ESTRUTURA GLOBAL */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100dvh;
+  overflow: hidden; 
+  touch-action: none;
+  background: #222;
+  font-family: sans-serif;
+}
+
+body {  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 2. MENU SUPERIOR */
+#menu {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1vmin;
+  padding: 1.5vh 1vmin;
+  width: 100%;
+  max-width: 650px;
+  background: #222;
+  flex-shrink: 0;
+}
+
+#menu button {
+  padding: 0.8vh 1.5vw;
+  font-size: 2.2vmin;
+  cursor: pointer;
+  border: none;
+  background: #444;
+  color: white;
+  border-radius: 0.5vmin;
+}
+
+/* 3. CONTAINER DO JOGO */
+#game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  flex: 1;
+  width: 100%;
+  max-width: 600px;
+  background: #333;
+  padding: 1vh 2vmin;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* 4. TEXTOS */
+h1 { color: #fefefe; font-size: 3.5vmin; margin: 0.5vh 0; }
+h2 { color: #fefefe; font-size: 2vmin; font-weight: normal; margin: 0; opacity: 0.8; }
+
+#timer, #errors, #resetBtn {
+  color: #fefefe;
+  padding: 0.5vmin 1.5vmin;
+  font-size: 2.5vmin;
+}
+#timer { border: 0.2vmin solid; }
+
+/* 5. TABELA (ÁREA DE ENCAIXE) */
+.syllabary {
+  table-layout: fixed;
+  border: 0.5vmin solid #777;
+  direction: rtl;
+  background: #777; /* Fundo original cinza médio */
+  border-collapse: separate;
+  border-spacing: 0.6vmin;
+  max-height: 50vh;
+  flex-shrink: 1;
+}
+
+.syllabary td {
+  width: 7.5vmin; 
+  height: 7.5vmin;
+  max-width: 50px;
+  max-height: 50px;
+  padding: 0;
+  position: relative;
+}
+
+/* O SLOT */
+.slot {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.05); /* Fundo quase imperceptível */
+  box-sizing: border-box;
+  position: relative;
+}
+
+/* Elementos fixos da tabela */
+.syllabary td > div:not(.slot) {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3.8vmin;
+  font-weight: bold;
+}
+
+/* 6. KANAS (LISTA INFERIOR) */
+.kanas {
+  display: grid;
+  grid-template-columns: repeat(11, 1fr);
+  gap: 0.6vmin;
+  width: 100%;
+  padding: 1vmin;
+  flex: 1;
+  align-content: center;
+  justify-items: center;
+}
+
+.kanas span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  max-width: 42px;
+  font-size: 3.5vmin;
+  cursor: pointer;
+  background: #eee;
+  color: #333;
+}
+
+/* 7. ESTADOS DE MOVIMENTO */
+.is-dragging {
+  position: fixed !important;
+  z-index: 9999;
+  width: 42px !important; 
+  height: 42px !important;
+  transform: scale(1.15);
+  pointer-events: none;
+  opacity: 0.9;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  visibility: visible !important;
+}
+.is-dragging-placeholder { visibility: hidden !important; }
+
+/* 8. CORES E AUXILIARES (ESTILO FANTASMA PRETO) */
+
+/* Hiragana */
+.hiragana, [data-type="hiragana"] { 
+  background-color: #FFE66D !important; 
+  color: #333 !important; 
+}
+
+/* Katakana */
+.katakana, [data-type="katakana"] { 
+  background-color: #4ECDC4 !important; 
+  color: #333 !important; 
+}
+
+/* Romaji/Peças brancas */
+[data-type="romaji"], .kanas span:not([data-type]) {
+  background-color: #fefefe !important;
+  color: #333 !important;
+}
+
+/* AUXILIAR (DICA): Letra preta "fantasma" como solicitado */
+.slot .helper { 
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.5; /* Transparência de 50% */
+  color: #000 !important; /* Cor preta */
+  font-size: 3.5vmin; 
+  font-weight: normal;
+  pointer-events: none; 
+  z-index: 1;
+}
+
+/* PEÇA COLOCADA */
+.slot .placed { 
+  width: 100%; 
+  height: 100%; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 5;
+}
+
+.slot.over { box-shadow: inset 0 0 0 2px #333; }
+.slot.error { background-color: #FF6B6B !important; }

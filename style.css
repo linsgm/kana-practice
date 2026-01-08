@@ -1,16 +1,22 @@
 html, body {
   margin: 0;
   padding: 0;
-  height: 100%;
-  overflow: hidden;
+  width: 100vw;
+  height: 100dvh;
+  overflow: hidden; 
+  touch-action: none;
 }
 body {  
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  height: 100vh;
   user-select: none;
+  -ms-user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
   background: #333;
   font-family: sans-serif;
 }
@@ -24,7 +30,7 @@ body {
 }
 #menu button {
   padding: 0.4em 0.6em;
-  font-size: 3vmin;
+  font-size: 2vmin;
   cursor: pointer;
   border: none;
   background: #555;
@@ -36,13 +42,13 @@ body {
 }
 h1 {
   color: #fefefe;
-  font-size: 4vmin;
+  font-size: 3vmin;
   margin-top: 2vmin;
   margin-bottom: 0;
 }
 h2 {
   color: #fefefe;
-  font-size: 2.5vmin;
+  font-size: 1.5vmin;
   font-weight: normal;
   font-style: italic;
 }
@@ -52,7 +58,7 @@ h2 {
   display: inline-block;
   color: #fefefe;
   padding: 0.5vmin 1.5vmin;
-  font-size: 3vmin; 
+  font-size: 2vmin; 
   margin: 0vmin;
   vertical-align: middle;
   margin-bottom: 2vmin;
@@ -105,8 +111,8 @@ h2 {
   border-spacing: 0.2rem;
 }
 .syllabary td {
-  width: 7.5vmin; 
-  height: 7.5vmin;
+  width: 5vmin; 
+  height: 5vmin;
 }
 .syllabary td > div {
   position: relative;
@@ -124,6 +130,7 @@ h2 {
 .slot {
   position: relative; 
   display: inline-block;
+  touch-action: none;
 }
 .slot.over {
   box-shadow: inset 0 0 0 2px #333;
@@ -152,6 +159,7 @@ h2 {
 .kanas {
   display: grid;
   grid-template-columns: repeat(11, 1fr);
+  transition: all 0.3s ease;
   flex-wrap: wrap;
   justify-content: center;
   padding: 2vmin;
@@ -160,16 +168,34 @@ h2 {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 4.5vmin;
+  touch-action: none;
+  position: relative;
+  z-index: 10;
+  will-change: transform, left, top;
+  font-size: 3.5vmin;
   line-height: 2.5rem;
-  width: 7.5vmin;
-  height: 7.5vmin;
+  width: 5vmin;
+  height: 5vmin;
   text-align: center;
-  margin: 0.4vmin;
+  margin: 0.3vmin;
   cursor: pointer;
 }
-.kanas span.dragging {
-  opacity: 0.5;
+.is-dragging {
+  position: fixed !important;
+  margin: 0 !important;
+  pointer-events: none;
+  z-index: 1000;
+  transform: scale(1.15);
+  opacity: 0.9;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  visibility: visible;
+}
+.is-dragging-placeholder {
+  visibility: hidden !important;
+  pointer-events: none;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 .hiragana,
 [data-type="hiragana"] {
@@ -180,21 +206,21 @@ h2 {
   background: #4ECDC4;
 }
 
-@media (min-aspect-ratio: 1/1) {
+@media (max-aspect-ratio: 3/4) {
   #menu button,
   #timer,
   #errors,
-  #resetBtn { font-size: 2vmin; }
-  h1 { font-size: 3vmin; }
-  h2 { font-size: 1.5vmin; }
+  #resetBtn { font-size: 2.75vmin; }
+  h1 { font-size: 3.75vmin; }
+  h2 { font-size: 2.25vmin; }
   .kanas span {
-    width: 5vmin;
-    height: 5vmin;
-    font-size: 3.5vmin;
-    margin: 0.3vmin;
+    width: 7.25vmin;
+    height: 7.25vmin;
+    font-size: 4.25vmin;
+    margin: 0.375vmin;
   }
   .syllabary td {
-    width: 5vmin; 
-    height: 5vmin;
+    width: 7.25vmin; 
+    height: 7.25vmin;
   }
 }

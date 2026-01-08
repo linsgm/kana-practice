@@ -1,6 +1,5 @@
 (function() {
   var dndHandler = {
-    
     draggedElement: null, 
     
     placeElement: function(dropper) {
@@ -9,8 +8,10 @@
         dropper.querySelector('.placed')?.remove();
         var clonedElement = dndHandler.draggedElement.cloneNode(true);
         clonedElement.classList.add('placed');
-        clonedElement = dropper.appendChild(clonedElement); 
-        dndHandler.applyDragEvents(clonedElement); 
+        clonedElement.style.left = '';
+        clonedElement.style.top = '';
+        clonedElement.classList.remove('is-dragging');
+        dropper.appendChild(clonedElement);
         var replaceElement = document.createElement('span');
         dndHandler.draggedElement.parentNode.replaceChild(replaceElement, dndHandler.draggedElement); 
         if (document.querySelectorAll('.kanas [data-type]').length == 0) {
@@ -27,55 +28,83 @@
     },
     
     applyDragEvents: function(element) {
-      element.draggable = true;
-      var dndHandler = this; 
-      element.addEventListener('dragstart', function(e) {
-        startTimer();
-        dndHandler.draggedElement = e.target; 
-        e.dataTransfer.setData('text/plain', '');
+      var dndHandler = this;
+      element.draggable = false;
+  
+      element.addEventListener('mousedown', function(e) {
+        if (e.button !== 0) return;
+        dndHandler.startManualDrag(e, element);
       });
-      element.addEventListener('click', function(e) {
-        if (previousDraggedElement = document.querySelector('.dragging')) {
-          previousDraggedElement.classList.remove('dragging');
-        }
-        dndHandler.draggedElement = e.target; 
-        e.target.classList.add('dragging');
-      });
+  
+      element.addEventListener('touchstart', function(e) {
+        dndHandler.startManualDrag(e.touches[0], element);
+      }, { passive: false });
     },
     
-    applyDropEvents: function(dropper) {
-      dropper.addEventListener('dragover', function(e) {
-        var target = e.target,
-            draggedElement = dndHandler.draggedElement,
-            dropClass = draggedElement.getAttribute('data-type'); 
-        while (target != null && !target.classList.contains(dropClass)) { 
-          target = target.parentNode;
-          if (target.tagName == 'BODY') {
-            target = null;
-          }
+    startManualDrag: function(coordSource, element) {
+      var dndHandler = this;
+      if (typeof startTimer === 'function') startTimer();
+      dndHandler.draggedElement = element;
+  
+      var rect = element.getBoundingClientRect();
+      var offsetX = rect.width / 2;
+      var offsetY = rect.height / 2;
+      var placeholderCreated = false;
+  
+      function move(e) {
+        var clientX = e.clientX || (e.touches ? e.touches[0].clientX : 0);
+        var clientY = e.clientY || (e.touches ? e.touches[0].clientY : 0);
+
+        if (e.cancelable) e.preventDefault();
+        if (!placeholderCreated) {
+            const placeholder = element.cloneNode(true);
+            placeholder.id = "placeholder-drag";
+            var style = window.getComputedStyle(element);
+            placeholder.style.width = style.width;
+            placeholder.style.height = style.height;
+            placeholder.style.margin = style.margin;
+            placeholder.classList.add('is-dragging-placeholder');
+            element.parentNode.insertBefore(placeholder, element);
+            placeholderCreated = true;
         }
-        if (target) {
-          e.preventDefault(); 
-          this.classList.add('over');
+        element.classList.add('is-dragging');
+        element.style.left = (clientX - offsetX) + 'px';
+        element.style.top = (clientY - offsetY) + 'px';
+
+        var target = document.elementFromPoint(clientX, clientY);
+        var slot = target ? target.closest('.slot') : null;
+
+        document.querySelectorAll('.over').forEach(s => s.classList.remove('over'));
+        if (slot && slot.classList.contains(element.getAttribute('data-type'))) {
+            slot.classList.add('over');
         }
-      });
-      dropper.addEventListener('dragleave', function() {
-        this.classList.remove('over');
-      });
-      var dndHandler = this; 
-      dropper.addEventListener('drop', function(e) {
-        dndHandler.placeElement(e.target);
-      });
-      dropper.addEventListener('click', function(e) {
-        if (draggedElement = document.querySelector('.dragging')) {
-          if (draggedElement.getAttribute('data-type') == e.target.className) {
-            dndHandler.placeElement(e.target);
-            draggedElement.classList.remove('dragging');
-          }
-        }
-      });
+      }
+  
+      function stop(e) {
+        var clientX = e.clientX || (e.changedTouches ? e.changedTouches[0].clientX : 0);
+        var clientY = e.clientY || (e.changedTouches ? e.changedTouches[0].clientY : 0);
+        var target = document.elementFromPoint(clientX, clientY);
+        var slot = target ? target.closest('.slot') : null;
+
+        const p = document.getElementById("placeholder-drag");
+        if (p) p.remove();
+        element.classList.remove('is-dragging');
+        element.style.left = '';
+        element.style.top = '';
+        document.querySelectorAll('.over').forEach(s => s.classList.remove('over'));
+        if (slot) dndHandler.placeElement(slot);
+
+        window.removeEventListener('mousemove', move);
+        window.removeEventListener('mouseup', stop);
+        window.removeEventListener('touchmove', move, { passive: false });
+        window.removeEventListener('touchend', stop);
+      }
+  
+      window.addEventListener('mousemove', move);
+      window.addEventListener('mouseup', stop);
+      window.addEventListener('touchmove', move, { passive: false });
+      window.addEventListener('touchend', stop);
     }
-    
   };
 
   var kanasArea = null;
@@ -86,10 +115,9 @@
 
   function startTimer() {
     if (timerStarted) return;
-  
     timerStarted = true;
     startTime = Date.now();
-  
+
     timerInterval = setInterval(function() {
       var timer = document.querySelector('#timer');
       if (!timer.classList.contains('finished')) {
@@ -106,11 +134,10 @@
     var timer = document.querySelector('#timer');
     timer.textContent = '00 : 00';
     timer.classList.remove('finished');
-  
+
     if (timerInterval) {
       clearInterval(timerInterval);
     }
-  
     timerStarted = false;
     startTime = null;
     timerInterval = null;
@@ -118,13 +145,11 @@
 
   function resetKanas() {
     document.querySelectorAll('.slot .placed').forEach(el => el.remove());
-  
     kanasArea.innerHTML = initialKanasHTML;
-  
+    
     document.querySelectorAll('.kanas [data-type]').forEach(el => {
       dndHandler.applyDragEvents(el);
     });
-  
     for (var i = kanasArea.children.length; i >= 0; i--) {
       kanasArea.appendChild(kanasArea.children[Math.random() * i | 0]);
     }
@@ -371,20 +396,14 @@
   }
 
   function initGame() {
-  
     var elements = document.querySelectorAll('[data-type]');
     elements.forEach(el => dndHandler.applyDragEvents(el));
-  
-    var droppers = document.querySelectorAll('.katakana, .hiragana');
-    droppers.forEach(drop => dndHandler.applyDropEvents(drop));
-  
     kanasArea = document.querySelector('.kanas');
     initialKanasHTML = kanasArea.innerHTML;
-   
+
     for (var i = kanasArea.children.length; i >= 0; i--) {
      kanasArea.appendChild(kanasArea.children[Math.random() * i | 0]);
     }
-
     document.getElementById('resetBtn').addEventListener('click', function() {
       resetTimer();
       resetKanas();
@@ -406,5 +425,4 @@
   });
 
   loadGame('hiragana');
-
 })();
