@@ -20,17 +20,30 @@ body {
   background: #333;
   font-family: sans-serif;
 }
+#wrapper {
+  container-type: size;
+  width: 600px;
+  height: 900px;
+  position: relative;
+  transform-origin: top center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0px;
+  box-sizing: border-box;
+  background-color: #444;
+}
 #menu {
   display: grid;
   grid-template-columns: repeat(2, auto);
-  gap: 1vmin;
+  gap: 1cqmin;
   justify-content: center;
-  margin-top: 3vmin;
-  margin-bottom: 1vmin;
+  margin-top: 3cqmin;
+  margin-bottom: 1cqmin;
 }
 #menu button {
   padding: 0.4em 0.6em;
-  font-size: 2vmin;
+  font-size: 3cqmin;
   cursor: pointer;
   border: none;
   background: #555;
@@ -42,13 +55,13 @@ body {
 }
 h1 {
   color: #fefefe;
-  font-size: 3vmin;
-  margin-top: 2vmin;
+  font-size: 4cqmin;
+  margin-top: 2cqmin;
   margin-bottom: 0;
 }
 h2 {
   color: #fefefe;
-  font-size: 1.5vmin;
+  font-size: 2.5cqmin;
   font-weight: normal;
   font-style: italic;
 }
@@ -57,14 +70,14 @@ h2 {
 #resetBtn {
   display: inline-block;
   color: #fefefe;
-  padding: 0.5vmin 1.5vmin;
-  font-size: 2vmin; 
-  margin: 0vmin;
+  padding: 0.5cqmin 1.5cqmin;
+  font-size: 3cqmin; 
+  margin: 0cqmin;
   vertical-align: middle;
-  margin-bottom: 2vmin;
+  margin-bottom: 2cqmin;
 }
 #timer {
-  border: 0.2vmin solid;
+  border: 0.2cqmin solid;
 }
 #timer.finished {
   color: #FF6B6B;
@@ -80,7 +93,7 @@ h2 {
   cursor: pointer;
   background: #555;
   border: none;
-  border-radius: 0.5vmin;
+  border-radius: 0.5cqmin;
   transition: background 0.2s;
 }
 #resetBtn:hover {
@@ -92,27 +105,27 @@ h2 {
   justify-content: flex-start;
   align-items: center;
   flex: 1;
-  width: 100vw;
-  height: 100vh;
-  padding: 2vh;
+  width: 100cqw;
+  height: 100cqh;
+  padding: 2cqh;
   box-sizing: border-box;
   overflow: hidden;
-  gap: 1vh;
+  gap: 1cqh;
 }
 .syllabary {
   table-layout: fixed;
-  border: 1vmin solid #777;
+  border: 1cqmin solid #777;
   direction: rtl;
   background: #777;
   width: max-content;
-  max-width: 95vw;
-  max-height: 60vh;
+  max-width: 95cqw;
+  max-height: 60cqh;
   border-collapse: separate;
   border-spacing: 0.2rem;
 }
 .syllabary td {
-  width: 5vmin; 
-  height: 5vmin;
+  width: 7.5cqmin; 
+  height: 7.5cqmin;
 }
 .syllabary td > div {
   position: relative;
@@ -121,8 +134,8 @@ h2 {
 }
 .syllabary td .hiragana,
 .syllabary td .katakana {
-  font-size: 4vmin;
-  line-height: 7vmin;
+  font-size: 4cqmin;
+  line-height: 7cqmin;
   width: 100%;
   height: 100%;
   transition: background 0.3s;
@@ -162,7 +175,7 @@ h2 {
   transition: all 0.3s ease;
   flex-wrap: wrap;
   justify-content: center;
-  padding: 2vmin;
+  padding: 2cqmin;
 }
 .kanas span {
   display: flex;
@@ -172,16 +185,17 @@ h2 {
   position: relative;
   z-index: 10;
   will-change: transform, left, top;
-  font-size: 3.5vmin;
+  font-size: 4.5cqmin;
   line-height: 2.5rem;
-  width: 5vmin;
-  height: 5vmin;
+  width: 7.5cqmin;
+  height: 7.5cqmin;
   text-align: center;
-  margin: 0.3vmin;
+  margin: 0.4cqmin;
   cursor: pointer;
 }
 .is-dragging {
-  position: fixed !important;
+  position: absolute !important;
+  transition: none !important;
   margin: 0 !important;
   pointer-events: none;
   z-index: 1000;
@@ -204,23 +218,4 @@ h2 {
 .katakana,
 [data-type="katakana"] {
   background: #4ECDC4;
-}
-
-@media (max-aspect-ratio: 3/4) {
-  #menu button,
-  #timer,
-  #errors,
-  #resetBtn { font-size: 2.75vmin; }
-  h1 { font-size: 3.75vmin; }
-  h2 { font-size: 2.25vmin; }
-  .kanas span {
-    width: 7.25vmin;
-    height: 7.25vmin;
-    font-size: 4.25vmin;
-    margin: 0.375vmin;
-  }
-  .syllabary td {
-    width: 7.25vmin; 
-    height: 7.25vmin;
-  }
 }

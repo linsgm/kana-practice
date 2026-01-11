@@ -47,13 +47,16 @@
       dndHandler.draggedElement = element;
   
       var rect = element.getBoundingClientRect();
-      var offsetX = rect.width / 2;
-      var offsetY = rect.height / 2;
+      var offsetX = coordSource.clientX - rect.left;
+      var offsetY = coordSource.clientY - rect.top;
       var placeholderCreated = false;
   
       function move(e) {
         var clientX = e.clientX || (e.touches ? e.touches[0].clientX : 0);
         var clientY = e.clientY || (e.touches ? e.touches[0].clientY : 0);
+        const container = document.getElementById('wrapper');
+        const rect = container.getBoundingClientRect();
+        const scale = rect.width / container.offsetWidth;
 
         if (e.cancelable) e.preventDefault();
         if (!placeholderCreated) {
@@ -68,8 +71,8 @@
             placeholderCreated = true;
         }
         element.classList.add('is-dragging');
-        element.style.left = (clientX - offsetX) + 'px';
-        element.style.top = (clientY - offsetY) + 'px';
+        element.style.left = ((clientX - rect.left - offsetX) / scale) + 'px';
+        element.style.top = ((clientY - rect.top - offsetY) / scale) + 'px';
 
         var target = document.elementFromPoint(clientX, clientY);
         var slot = target ? target.closest('.slot') : null;
@@ -425,4 +428,22 @@
   });
 
   loadGame('hiragana');
+
+  function resizeGame() {
+    const container = document.getElementById('wrapper');
+    if (!container) return;
+    const targetWidth = 600;
+    const targetHeight = 900;
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+    const scaleX = windowWidth / targetWidth;
+    const scaleY = windowHeight / targetHeight;
+    const scale = Math.min(scaleX, scaleY);
+    container.style.transform = `scale(${scale})`;
+  }
+  
+  window.addEventListener('resize', resizeGame);
+  window.addEventListener('load', resizeGame);
+
+  resizeGame();
 })();
