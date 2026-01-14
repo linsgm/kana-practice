@@ -24,7 +24,8 @@ body {
   container-type: size;
   width: 600px;
   height: 900px;
-  position: relative;
+  position: absolute;
+  top: 0;
   transform-origin: top center;
   display: flex;
   flex-direction: column;
@@ -32,6 +33,7 @@ body {
   padding: 0px;
   box-sizing: border-box;
   background-color: #444;
+  margin: 0;
 }
 #menu {
   display: grid;
