@@ -120,14 +120,14 @@ h2 {
   direction: rtl;
   background: #777;
   width: max-content;
-  max-width: 95cqw;
+  max-width: 100cqw;
   max-height: 60cqh;
   border-collapse: separate;
   border-spacing: 0.2rem;
 }
 .syllabary td {
-  width: 7.5cqmin; 
-  height: 7.5cqmin;
+  width: 8cqmin;
+  height: 8cqmin;
 }
 .syllabary td > div {
   position: relative;
@@ -136,7 +136,7 @@ h2 {
 }
 .syllabary td .hiragana,
 .syllabary td .katakana {
-  font-size: 4cqmin;
+  font-size: 5cqmin;
   line-height: 7cqmin;
   width: 100%;
   height: 100%;
@@ -148,7 +148,7 @@ h2 {
   touch-action: none;
 }
 .slot.over {
-  box-shadow: inset 0 0 0 2px #333;
+  box-shadow: inset 0 0 0 3px #333;
 }
 .slot.error {
   transition: background 0s;
@@ -174,7 +174,6 @@ h2 {
 .kanas {
   display: grid;
   grid-template-columns: repeat(11, 1fr);
-  transition: all 0.3s ease;
   flex-wrap: wrap;
   justify-content: center;
   padding: 2cqmin;
@@ -186,11 +185,10 @@ h2 {
   touch-action: none;
   position: relative;
   z-index: 10;
-  will-change: transform, left, top;
-  font-size: 4.5cqmin;
+  font-size: 5cqmin;
   line-height: 2.5rem;
-  width: 7.5cqmin;
-  height: 7.5cqmin;
+  width: 8cqmin;
+  height: 8cqmin;
   text-align: center;
   margin: 0.4cqmin;
   cursor: pointer;
@@ -200,10 +198,8 @@ h2 {
   transition: none !important;
   margin: 0 !important;
   pointer-events: none;
-  z-index: 1000;
-  transform: scale(1.15);
-  opacity: 0.9;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  z-index: 1000 !important;
+  opacity: 0.6;
   visibility: visible;
 }
 .is-dragging-placeholder {
