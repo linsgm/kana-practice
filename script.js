@@ -37,12 +37,13 @@
       });
   
       element.addEventListener('touchstart', function(e) {
-        dndHandler.startManualDrag(e.touches[0], element);
+        dndHandler.startManualDrag(e.changedTouches[0], element);
       }, { passive: false });
     },
     
     startManualDrag: function(coordSource, element) {
       var dndHandler = this;
+      if (dndHandler.draggedElement) return;
       if (typeof startTimer === 'function') startTimer();
       dndHandler.draggedElement = element;
   
@@ -96,17 +97,20 @@
         element.style.top = '';
         document.querySelectorAll('.over').forEach(s => s.classList.remove('over'));
         if (slot) dndHandler.placeElement(slot);
+        dndHandler.draggedElement = null;
 
         window.removeEventListener('mousemove', move);
         window.removeEventListener('mouseup', stop);
         window.removeEventListener('touchmove', move, { passive: false });
         window.removeEventListener('touchend', stop);
+        window.removeEventListener('touchcancel', stop);
       }
   
       window.addEventListener('mousemove', move);
       window.addEventListener('mouseup', stop);
       window.addEventListener('touchmove', move, { passive: false });
       window.addEventListener('touchend', stop);
+      window.addEventListener('touchcancel', stop);
     }
   };
 
